@@ -1,0 +1,9 @@
+{application, lifeline,
+ [{description, "Resilient emergency incident intake and delivery"},
+  {vsn, "0.1.0"},
+  {registered, [lifeline_sup, incident_store, delivery_queue]},
+  {mod, {lifeline_app, []}},
+  {applications, [kernel, stdlib, crypto, inets, ssl, cowboy, jsx]},
+  {env, [{port, 8080}, {data_dir, "data"}, {delivery_url, undefined}]},
+  {modules, []}
+ ]}.

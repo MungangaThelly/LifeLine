@@ -5,7 +5,7 @@
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
 -define(TABLE, lifeline_incidents).
--define(FILE, "incidents.dets").
+-define(DETS_FILE, "incidents.dets").
 
 start_link(DataDir) -> gen_server:start_link({local, ?MODULE}, ?MODULE, DataDir, []).
 create(Incident) -> gen_server:call(?MODULE, {create, Incident}, 15000).
@@ -16,7 +16,7 @@ pending() -> gen_server:call(?MODULE, pending).
 
 init(DataDir) ->
     ok = filelib:ensure_dir(filename:join(DataDir, "placeholder")),
-    Path = filename:join(DataDir, ?FILE),
+    Path = filename:join(DataDir, ?DETS_FILE),
     case dets:open_file(?TABLE, [{file, Path}, {type, set}, {keypos, 1}, {repair, true}]) of
         {ok, ?TABLE} -> {ok, #{path => Path}};
         {error, Reason} -> {stop, {dets_open_failed, Reason}}
